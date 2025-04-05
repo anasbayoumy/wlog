@@ -1,14 +1,22 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wlog/features/auth/domain/usecases/user_signUp.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthInitial()) {
-    on<AuthEvent>((event, emit) {
-      // TODO: implement event handler
-      //have foen
+  final UserSignup _userSignup;
+
+  AuthBloc({
+    required UserSignup userSignup,
+  })  : _userSignup = userSignup,
+        super(AuthInitial()) {
+    on<SignUpEvent>((event, emit) {
+      _userSignup(userSignupParams(
+        email: 'test@test.com',
+        password: 'test',
+        name: 'test',
+      ));
     });
   }
 }
