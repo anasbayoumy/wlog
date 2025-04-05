@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/features/auth/domain/usecases/user_signUp.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -23,8 +24,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           (failure) => emit(AuthFailure(failure.message)),
           (success) => emit(AuthSuccess()),
         );
+      } on ServerException catch (e) {
+        emit(AuthFailure(e.message));
       } catch (e) {
-        emit(AuthFailure(e.toString()));
+        emit(AuthFailure('An unexpected error occurred: ${e.toString()}'));
       }
     });
   }

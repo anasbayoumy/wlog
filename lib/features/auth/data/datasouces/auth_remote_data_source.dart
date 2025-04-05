@@ -24,10 +24,11 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> signUp(
-      {required String email,
-      required String password,
-      required String name}) async {
+  Future<String> signUp({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
     try {
       if (email.isEmpty || password.isEmpty || name.isEmpty) {
         throw ServerException(message: 'All fields are required');

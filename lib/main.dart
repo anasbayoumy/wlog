@@ -5,33 +5,20 @@ import 'package:wlog/core/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/features/auth/domain/usecases/user_signUp.dart';
 import 'package:wlog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:wlog/initDependencies.dart';
 import 'features/auth/data/datasouces/auth_remote_data_source.dart';
 import 'features/auth/data/repo/auth_repo_imp.dart';
 import 'features/auth/presentation/pages/signup_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final supabase = await Supabase.initialize(
-    url: SupabaseSecrets.url,
-    anonKey: SupabaseSecrets.anonKey,
-  );
-  //  authRepo:   remoteDataSource: supabaseClient:
+  await initDependencies();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => AuthBloc(
-          userSignup: UserSignup(
-            authRepo: AuthRepoImp(
-              remoteDataSource: AuthRemoteDataSourceImp(
-                supabaseClient: supabase.client,
-              ),
-            ),
-          ),
-        ),
+        create: (context) => serviceLocator<AuthBloc>(),
       ),
-      // BlocProvider(
-      //   create: (context) => SubjectBloc(),
-      // ),
     ],
     child: const MyApp(),
   ));
