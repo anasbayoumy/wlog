@@ -15,19 +15,26 @@ void main() async {
     url: SupabaseSecrets.url,
     anonKey: SupabaseSecrets.anonKey,
   );
+  //  authRepo:   remoteDataSource: supabaseClient:
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => (_) =>AuthBloc(userSignup: UserSignup(AuthRepoImp(AuthRemoteDataSourceImp(supabase.client))),
+        create: (context) => AuthBloc(
+          userSignup: UserSignup(
+            authRepo: AuthRepoImp(
+              remoteDataSource: AuthRemoteDataSourceImp(
+                supabaseClient: supabase.client,
+              ),
+            ),
+          ),
+        ),
       ),
       // BlocProvider(
       //   create: (context) => SubjectBloc(),
       // ),
     ],
     child: const MyApp(),
-  )
-  
-);
+  ));
 }
 
 class MyApp extends StatelessWidget {

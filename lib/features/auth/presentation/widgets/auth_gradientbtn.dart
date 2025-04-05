@@ -3,7 +3,12 @@ import 'package:wlog/core/theme/theme_pallet.dart';
 
 class AuthGradientbtn extends StatelessWidget {
   final String text;
-  const AuthGradientbtn({super.key, required this.text});
+  final void Function()? onPressed;
+  const AuthGradientbtn({
+    super.key,
+    required this.text,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class AuthGradientbtn extends StatelessWidget {
           gradient: const RadialGradient(
               colors: [AppPallete.gradient1, AppPallete.gradient2])),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppPallete.transparentColor,
             shadowColor: AppPallete.transparentColor,

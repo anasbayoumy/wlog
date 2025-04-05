@@ -41,7 +41,10 @@ class _LoginPageState extends State<LoginPage> {
               isPassword: true,
             ),
             const SizedBox(height: 20),
-            const AuthGradientbtn(text: "Login"),
+            AuthGradientbtn(
+              text: "Login",
+              onPressed: () {},
+            ),
             const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

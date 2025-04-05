@@ -21,7 +21,16 @@ migration:
     - platform: ios
       create_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
       base_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
+    - platform: linux
+      create_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
+      base_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
+    - platform: macos
+      create_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
+      base_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
     - platform: web
+      create_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
+      base_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
+    - platform: windows
       create_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
       base_revision: 3bc354b572ed23ebd1021cb4e278dbd51f6bf409
 
