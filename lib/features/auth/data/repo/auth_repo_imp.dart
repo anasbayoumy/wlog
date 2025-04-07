@@ -1,7 +1,10 @@
 import 'package:fpdart/fpdart.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/core/error/failures.dart';
 import 'package:wlog/features/auth/data/datasouces/auth_remote_data_source.dart';
+import 'package:wlog/features/auth/domain/entities/user.dart';
+
 import 'package:wlog/features/auth/domain/repo/auth_repo.dart';
 
 class AuthRepoImp implements AuthRepo {
@@ -9,23 +12,32 @@ class AuthRepoImp implements AuthRepo {
   AuthRepoImp({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, String>> logIn(
-      {required String email, required String password}) {
-    // TODO: implement logIn
+  Future<Either<Failure, UserEntity>> logIn({
+    required String email,
+    required String password,
+  }) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, String>> signUp(
-      {required String email,
-      required String password,
-      required String name}) async {
+  Future<Either<Failure, UserEntity>> signUp({
+    required String email,
+    required String password,
+    required String name,
+    // String? username,
+  }) async {
     try {
-      final response = await remoteDataSource.signUp(
-          email: email, password: password, name: name);
-      return right(response);
+      final result = await remoteDataSource.signUp(
+        email: email,
+        password: password,
+        name: name,
+        // username: username,
+      );
+      return Right(result);
     } on ServerException catch (e) {
-      return left(Failure(e.message));
+      return Left(Failure(e.message));
+    } catch (e) {
+      return Left(Failure(e.toString()));
     }
   }
 }

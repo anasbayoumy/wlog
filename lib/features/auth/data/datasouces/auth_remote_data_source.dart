@@ -1,13 +1,14 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/error/exceptions.dart';
+import 'package:wlog/features/auth/data/models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<String> signUp({
+  Future<UserModel> signUp({
     required String email,
     required String password,
     required String name,
   });
-  Future<String> logIn({
+  Future<UserModel> logIn({
     required String email,
     required String password,
   });
@@ -19,12 +20,12 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
   AuthRemoteDataSourceImp({required this.supabaseClient});
 
   @override
-  Future<String> logIn({required String email, required String password}) {
+  Future<UserModel> logIn({required String email, required String password}) {
     throw UnimplementedError();
   }
 
   @override
-  Future<String> signUp({
+  Future<UserModel> signUp({
     required String email,
     required String password,
     required String name,
@@ -56,7 +57,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
             message: 'Email verification required. Please check your email.');
       }
 
-      return response.user!.id;
+      return UserModel.fromJson(response.user!.toJson());
     } on ServerException {
       rethrow;
     } on AuthException catch (e) {
