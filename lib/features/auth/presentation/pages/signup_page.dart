@@ -187,6 +187,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wlog/core/common/widgets/loader.dart';
 import 'package:wlog/core/theme/theme_pallet.dart';
 import 'package:wlog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:wlog/features/auth/presentation/widgets/auth_field.dart';
@@ -218,35 +219,39 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppPallete.backgroundColor,
-          title: const Text(''),
-          centerTitle: true,
-        ),
-        body: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                      'Sign up successful! Please check your email for verification.'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
-            } else if (state is AuthFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          child: Center(
+      appBar: AppBar(
+        backgroundColor: AppPallete.backgroundColor,
+        title: const Text(''),
+        centerTitle: true,
+      ),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                    'Sign up successful! Please check your email for verification.'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          } else if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return const Loader();
+          }
+          return Center(
             child: Form(
               key: formkey,
               child: Container(
@@ -323,7 +328,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     ]),
               ),
             ),
-          ),
-        ));
+          );
+        },
+      ),
+    );
   }
 }

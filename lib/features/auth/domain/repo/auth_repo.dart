@@ -9,7 +9,6 @@ abstract interface class AuthRepo {
     required String email,
     required String password,
     required String name,
-    String? username,
   });
   Future<Either<Failure, UserEntity>> logIn({
     required String email,
