@@ -2,7 +2,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:wlog/core/error/failures.dart';
 import '../entities/user.dart';
 
-// import 'package:wlog/features/auth/domain/entities/user.dart';
 abstract interface class AuthRepo {
   Future<Either<Failure, UserEntity>> signUp({
     required String email,

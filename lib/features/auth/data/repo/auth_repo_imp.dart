@@ -1,10 +1,8 @@
 import 'package:fpdart/fpdart.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/core/error/failures.dart';
 import 'package:wlog/features/auth/data/datasouces/auth_remote_data_source.dart';
 import 'package:wlog/features/auth/domain/entities/user.dart';
-
 import 'package:wlog/features/auth/domain/repo/auth_repo.dart';
 
 class AuthRepoImp implements AuthRepo {
@@ -15,8 +13,18 @@ class AuthRepoImp implements AuthRepo {
   Future<Either<Failure, UserEntity>> logIn({
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError();
+  }) async {
+    try {
+      final result = await remoteDataSource.logIn(
+        email: email,
+        password: password,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 
   @override
@@ -24,14 +32,12 @@ class AuthRepoImp implements AuthRepo {
     required String email,
     required String password,
     required String name,
-    // String? username,
   }) async {
     try {
       final result = await remoteDataSource.signUp(
         email: email,
         password: password,
         name: name,
-        // username: username,
       );
       return Right(result);
     } on ServerException catch (e) {

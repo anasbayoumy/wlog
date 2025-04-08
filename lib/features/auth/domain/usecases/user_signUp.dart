@@ -14,7 +14,6 @@ class UserSignup implements Usecase<UserEntity, UserSignupParams> {
       email: params.email,
       password: params.password,
       name: params.name,
-      // username: params.username,
     );
   }
 }
