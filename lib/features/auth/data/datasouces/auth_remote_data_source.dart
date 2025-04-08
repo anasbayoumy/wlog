@@ -20,10 +20,8 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
   AuthRemoteDataSourceImp({required this.supabaseClient});
 
   @override
-  Future<UserModel> logIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserModel> logIn(
+      {required String email, required String password}) async {
     try {
       final response = await supabaseClient.auth.signInWithPassword(
         email: email,
@@ -34,9 +32,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
         throw ServerException(message: 'Failed to log in');
       }
 
-      final userData = response.user!.toJson();
-      print('Login User Data: $userData'); // Debug log
-      return UserModel.fromJson(userData);
+      return UserModel.fromJson(response.user!.toJson());
     } catch (e) {
       throw ServerException(message: e.toString());
     }
