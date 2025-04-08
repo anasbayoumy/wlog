@@ -1,5 +1,4 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/error/failures.dart';
 import '../entities/user.dart';
 
