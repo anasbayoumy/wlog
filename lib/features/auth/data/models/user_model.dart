@@ -14,9 +14,6 @@ class UserModel extends UserEntity {
         userMetadata['name']?.toString() ?? map['name']?.toString() ?? '';
     final email = map['email']?.toString() ?? '';
 
-    print(
-        'Extracted fields - id: $id, name: $name, email: $email'); // Debug log
-
     if (id.isEmpty || name.isEmpty || email.isEmpty) {
       throw Exception(
           'Invalid user data: missing required fields. id: $id, name: $name, email: $email');
