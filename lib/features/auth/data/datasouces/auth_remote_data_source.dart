@@ -3,6 +3,7 @@ import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/features/auth/data/models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
+  Session? get currentSession;
   Future<UserModel> signUp({
     required String email,
     required String password,
@@ -12,12 +13,17 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<UserModel?> getCurrentUser();
 }
 
 class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
 
   AuthRemoteDataSourceImp({required this.supabaseClient});
+
+  @override
+  Session? get currentSession => supabaseClient.auth.currentSession;
 
   @override
   Future<UserModel> logIn(
@@ -81,5 +87,16 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
       throw ServerException(
           message: 'An unexpected error occurred: ${e.toString()}');
     }
+  }
+
+  Future<UserModel?> getCurrentUser() async {
+    final response = await supabaseClient
+        .from('profiles')
+        .select()
+        .eq('id', currentSession!.user.id);
+    if (response == null) {
+      return null;
+    }
+    return UserModel.fromJson(response.first);
   }
 }
