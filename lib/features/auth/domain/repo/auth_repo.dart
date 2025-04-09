@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:wlog/core/error/failures.dart';
-import '../entities/user.dart';
+import '../../../../core/common/entities/user.dart';
 
 abstract interface class AuthRepo {
   Future<Either<Failure, UserEntity>> signUp({

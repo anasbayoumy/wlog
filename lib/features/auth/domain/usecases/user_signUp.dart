@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:wlog/core/error/failures.dart';
 import 'package:wlog/core/usecase/usecase.dart';
-import 'package:wlog/features/auth/domain/entities/user.dart';
+import 'package:wlog/core/common/entities/user.dart';
 import 'package:wlog/features/auth/domain/repo/auth_repo.dart';
 
 class UserSignup implements Usecase<UserEntity, UserSignupParams> {

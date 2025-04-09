@@ -1,4 +1,4 @@
-import 'package:wlog/features/auth/domain/entities/user.dart';
+import 'package:wlog/core/common/entities/user.dart';
 
 class UserModel extends UserEntity {
   UserModel({required super.id, required super.name, required super.email});

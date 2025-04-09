@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/core/error/failures.dart';
 import 'package:wlog/features/auth/data/datasouces/auth_remote_data_source.dart';
-import 'package:wlog/features/auth/domain/entities/user.dart';
+import 'package:wlog/core/common/entities/user.dart';
 import 'package:wlog/features/auth/domain/repo/auth_repo.dart';
 
 class AuthRepoImp implements AuthRepo {
