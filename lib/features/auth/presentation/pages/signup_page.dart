@@ -53,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("a7a" + state.message),
+                content: Text("a7a${state.message}"),
                 backgroundColor: Colors.red,
               ),
             );

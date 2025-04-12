@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.of(context).pushReplacementNamed('/home');
         }
         if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(

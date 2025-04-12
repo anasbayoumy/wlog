@@ -37,13 +37,34 @@ class _MyAppState extends State<MyApp> {
     serviceLocator<AppUserCubit>().getAppUser();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'WLOG',
       theme: AppTheme.DarkModeTheme,
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(builder: (_) => const LoginPage());
+          case '/home':
+            return MaterialPageRoute(
+              builder: (_) => const Scaffold(
+                body: Center(
+                  child: Text('Home Page'),
+                ),
+              ),
+            );
+          default:
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Center(
+                  child: Text('No route defined for ${settings.name}'),
+                ),
+              ),
+            );
+        }
+      },
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
         selector: (state) {
           return state is IsLoggedIn;

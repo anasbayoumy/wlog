@@ -89,14 +89,12 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     }
   }
 
+  @override
   Future<UserModel?> getCurrentUser() async {
     final response = await supabaseClient
         .from('profiles')
         .select()
         .eq('id', currentSession!.user.id);
-    if (response == null) {
-      return null;
-    }
     return UserModel.fromJson(response.first);
   }
 }
