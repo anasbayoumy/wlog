@@ -4,6 +4,7 @@ import 'package:wlog/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:wlog/core/theme/theme.dart';
 import 'package:wlog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:wlog/features/auth/presentation/pages/loginpage.dart';
+import 'package:wlog/features/blog/presentation/pages/blog_page.dart';
 import 'package:wlog/initDependencies.dart';
 
 void main() async {
@@ -46,20 +47,7 @@ class _MyAppState extends State<MyApp> {
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
         selector: (state) => state is IsLoggedIn,
         builder: (context, isLoggedIn) {
-          return isLoggedIn
-              ? const Scaffold(
-                  body: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Home Page'),
-                        SizedBox(height: 20),
-                        CircularProgressIndicator()
-                      ],
-                    ),
-                  ),
-                )
-              : const LoginPage();
+          return isLoggedIn ? const BlogPage() : const LoginPage();
         },
       ),
     );
