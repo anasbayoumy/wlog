@@ -6,17 +6,12 @@ class UserModel extends UserEntity {
   factory UserModel.fromJson(Map<String, dynamic> map) {
     print('Converting user data: $map'); // Debug log
 
-    // Supabase stores user metadata in a separate field
-    final userMetadata = map['user_metadata'] as Map<String, dynamic>? ?? {};
-
     final id = map['id']?.toString() ?? '';
-    final name =
-        userMetadata['name']?.toString() ?? map['name']?.toString() ?? '';
+    final name = map['name']?.toString() ?? 'User';
     final email = map['email']?.toString() ?? '';
 
-    if (id.isEmpty || name.isEmpty || email.isEmpty) {
-      throw Exception(
-          'Invalid user data: missing required fields. id: $id, name: $name, email: $email');
+    if (id.isEmpty) {
+      throw Exception('Invalid user data: missing required field "id"');
     }
 
     return UserModel(

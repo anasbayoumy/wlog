@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    serviceLocator<AppUserCubit>().getAppUser();
+    context.read<AuthBloc>().add(IsUserLoggedInEvent());
   }
 
   @override
@@ -43,41 +43,43 @@ class _MyAppState extends State<MyApp> {
       title: 'WLOG',
       theme: AppTheme.DarkModeTheme,
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/':
-            return MaterialPageRoute(builder: (_) => const LoginPage());
-          case '/home':
-            return MaterialPageRoute(
-              builder: (_) => const Scaffold(
-                body: Center(
-                  child: Text('Home Page'),
-                ),
-              ),
-            );
-          default:
-            return MaterialPageRoute(
-              builder: (_) => Scaffold(
-                body: Center(
-                  child: Text('No route defined for ${settings.name}'),
-                ),
-              ),
-            );
-        }
-      },
+      // onGenerateRoute: (settings) {
+      //   switch (settings.name) {
+      //     case '/':
+      //       return MaterialPageRoute(builder: (_) => const LoginPage());
+      //     case '/home':
+      //       return MaterialPageRoute(
+      //         builder: (_) => const Scaffold(
+      //           body: Center(
+      //             child: Text('Home Page'),
+      //           ),
+      //         ),
+      //       );
+      //     default:
+      //       return MaterialPageRoute(
+      //         builder: (_) => Scaffold(
+      //           body: Center(
+      //             child: Text('No route defined for ${settings.name}'),
+      //           ),
+      //         ),
+      //       );
+      //   }
+      // },
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
-        selector: (state) {
-          return state is IsLoggedIn;
-        },
+        selector: (state) => state is IsLoggedIn,
         builder: (context, isLoggedIn) {
-          if (isLoggedIn) {
-            return const Scaffold(
-              body: Center(
-                child: Text('Home Page'),
-              ),
-            );
-          }
-          return const LoginPage();
+          return isLoggedIn
+              ? const Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: [
+                        Text('Home Page'),
+                        CircularProgressIndicator()
+                      ],
+                    ),
+                  ),
+                )
+              : const LoginPage();
         },
       ),
     );

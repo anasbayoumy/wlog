@@ -1,16 +1,16 @@
 part of 'app_user_cubit.dart';
 
 @immutable
-sealed class AppUserState {}
+abstract class AppUserState {}
 
-final class AppUserInitial extends AppUserState {}
+class AppUserInitial extends AppUserState {}
 
-final class IsLoggedIn extends AppUserState {
+class IsLoggedIn extends AppUserState {
   final UserEntity user;
   IsLoggedIn({required this.user});
 }
 
-final class IsNotLoggedIn extends AppUserState {}
+class IsNotLoggedIn extends AppUserState {}
 
 
 

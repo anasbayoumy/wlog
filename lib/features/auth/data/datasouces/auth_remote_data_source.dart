@@ -91,10 +91,46 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
 
   @override
   Future<UserModel?> getCurrentUser() async {
-    final response = await supabaseClient
-        .from('profiles')
-        .select()
-        .eq('id', currentSession!.user.id);
-    return UserModel.fromJson(response.first);
+    try {
+      final user = supabaseClient.auth.currentUser;
+      if (user == null) {
+        print('No current user found');
+        return null;
+      }
+
+      final userData = user.toJson();
+      print('Raw user data: $userData'); // Debug log
+
+      final userMetadata =
+          userData['user_metadata'] as Map<String, dynamic>? ?? {};
+      final identityData = (userData['identities'] as List?)
+              ?.firstOrNull?['identity_data'] as Map<String, dynamic>? ??
+          {};
+
+      // Get email from user data or metadata
+      final email = userData['email']?.toString() ??
+          userMetadata['email']?.toString() ??
+          identityData['email']?.toString() ??
+          '';
+
+      // Get name from metadata or user data
+      final name = userMetadata['name']?.toString() ??
+          userData['name']?.toString() ??
+          identityData['name']?.toString() ??
+          'User';
+
+      // Create a new map with the required fields
+      final processedData = {
+        'id': userData['id']?.toString() ?? '',
+        'email': email,
+        'name': name,
+      };
+
+      print('Processed user data: $processedData'); // Debug log
+      return UserModel.fromJson(processedData);
+    } catch (e) {
+      print('Error getting current user: $e');
+      return null;
+    }
   }
 }
