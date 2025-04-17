@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:wlog/core/theme/theme_pallet.dart';
 import 'package:wlog/features/blog/presentation/widgets/textfield_content.dart';
 
 class AddNewBlogPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class AddNewBlogPage extends StatefulWidget {
 class _AddNewBlogPageState extends State<AddNewBlogPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
+  List<String> selectedTags = [];
 
   @override
   void dispose() {
@@ -74,11 +76,31 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                   ]
                       .map((e) => Padding(
                             padding: const EdgeInsets.all(6.0),
-                            child: Chip(
-                              label: Text(e),
-                              backgroundColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                            child: GestureDetector(
+                              onTap: () {
+                                if (selectedTags.contains(e)) {
+                                  setState(() {
+                                    selectedTags.remove(e);
+                                  });
+                                } else {
+                                  setState(() {
+                                    selectedTags.add(e);
+                                  });
+                                }
+                              },
+                              child: Chip(
+                                label: Text(e),
+                                backgroundColor: selectedTags.contains(e)
+                                    ? AppPallete.gradient1
+                                    : Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(
+                                    color: selectedTags.contains(e)
+                                        ? AppPallete.backgroundColor
+                                        : Colors.grey,
+                                  ),
+                                ),
                               ),
                             ),
                           ))
