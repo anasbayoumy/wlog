@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:wlog/core/theme/theme_pallet.dart';
+import 'package:wlog/core/utils/imagepicker.dart';
 import 'package:wlog/features/blog/presentation/widgets/textfield_content.dart';
 
 class AddNewBlogPage extends StatefulWidget {
@@ -14,6 +17,25 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
   List<String> selectedTags = [];
+  File? imagePicked;
+
+  void pickImageFromGalleryBlog() async {
+    final image = await pickImageFromGallery();
+    if (image != null) {
+      setState(() {
+        imagePicked = image;
+      });
+    }
+  }
+
+  void pickImageFromCameraBlog() async {
+    final image = await pickImageFromCamera();
+    if (image != null) {
+      setState(() {
+        imagePicked = image;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -41,24 +63,55 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              DottedBorder(
-                radius: const Radius.circular(20),
-                color: Colors.grey,
-                borderType: BorderType.RRect,
-                dashPattern: const [10, 5],
-                child: Container(
-                  height: 150,
-                  width: 300,
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.drive_folder_upload_rounded),
-                      SizedBox(height: 20),
-                      Text('Upload'),
-                    ],
-                  ),
-                ),
-              ),
+              imagePicked != null
+                  ? Image.file(
+                      imagePicked!,
+                      width: double.infinity,
+                      height: 150,
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Select Image'),
+                            content: Column(
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      pickImageFromGalleryBlog();
+                                    },
+                                    child: Text('Gallery')),
+                                TextButton(
+                                    onPressed: () {
+                                      pickImageFromCameraBlog();
+                                    },
+                                    child: Text('Camera')),
+                              ],
+                            ),
+                          ),
+                          barrierDismissible: true,
+                        );
+                      },
+                      child: DottedBorder(
+                        radius: const Radius.circular(20),
+                        color: Colors.grey,
+                        borderType: BorderType.RRect,
+                        dashPattern: const [10, 5],
+                        child: Container(
+                          height: 150,
+                          width: double.infinity,
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.drive_folder_upload_rounded),
+                              SizedBox(height: 20),
+                              Text('Upload'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
               const SizedBox(height: 20),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
