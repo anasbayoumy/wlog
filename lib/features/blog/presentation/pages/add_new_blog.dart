@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:wlog/features/blog/presentation/widgets/textfield_content.dart';
 
 class AddNewBlogPage extends StatefulWidget {
   const AddNewBlogPage({super.key});
@@ -9,6 +10,16 @@ class AddNewBlogPage extends StatefulWidget {
 }
 
 class _AddNewBlogPageState extends State<AddNewBlogPage> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +84,18 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                           ))
                       .toList(),
                 ),
+              ),
+              const SizedBox(height: 20),
+              TextFieldContent(
+                hintText: 'Vlog Title',
+                controller: titleController,
+                maxlines: 1,
+              ),
+              const SizedBox(height: 20),
+              TextFieldContent(
+                hintText: 'Vlog Content',
+                controller: contentController,
+                maxlines: null,
               ),
             ],
           ),
