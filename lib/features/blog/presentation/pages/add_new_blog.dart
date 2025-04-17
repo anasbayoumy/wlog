@@ -64,10 +64,18 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               imagePicked != null
-                  ? Image.file(
-                      imagePicked!,
-                      width: double.infinity,
-                      height: 150,
+                  ? GestureDetector(
+                      onTap: () {
+                        pickImageFromGalleryBlog();
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 150,
+                        child: Image.file(
+                          imagePicked!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     )
                   : GestureDetector(
                       onTap: () {
