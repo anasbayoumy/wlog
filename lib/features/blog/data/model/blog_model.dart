@@ -34,4 +34,15 @@ class BlogModel extends Blog {
       posterId: map['poster_id'],
     );
   }
+
+  BlogModel copyWith({String? image}) {
+    return BlogModel(
+        id: id,
+        title: title,
+        content: content,
+        image: image ?? this.image,
+        topics: topics,
+        createdAt: createdAt,
+        posterId: posterId);
+  }
 }
