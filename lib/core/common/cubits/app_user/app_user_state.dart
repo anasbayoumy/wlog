@@ -1,7 +1,9 @@
 part of 'app_user_cubit.dart';
 
 @immutable
-abstract class AppUserState {}
+abstract class AppUserState {
+  UserEntity? get user => null;
+}
 
 class AppUserInitial extends AppUserState {}
 

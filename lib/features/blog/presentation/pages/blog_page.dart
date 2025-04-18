@@ -10,7 +10,7 @@ class BlogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('wlog'),
+        title: const Text('wlog'),
         centerTitle: true,
         actions: [
           IconButton(
