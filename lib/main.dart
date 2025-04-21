@@ -12,6 +12,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
 
+  final authBloc = serviceLocator<AuthBloc>();
+  final appUserCubit = serviceLocator<AppUserCubit>();
+  final blogBloc = serviceLocator<BlogBloc>();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
