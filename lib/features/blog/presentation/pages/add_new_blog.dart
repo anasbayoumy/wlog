@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wlog/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:wlog/core/common/widgets/app_navigation_bar.dart';
 import 'package:wlog/core/theme/theme_pallet.dart';
 import 'package:wlog/core/utils/imagepicker.dart';
 import 'package:wlog/features/blog/presentation/bloc/blog_bloc.dart';
@@ -229,6 +230,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           );
         },
       ),
+      bottomNavigationBar: const AppNavigationBar(currentIndex: 2),
     );
   }
 }

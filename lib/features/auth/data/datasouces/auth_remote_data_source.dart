@@ -14,6 +14,8 @@ abstract interface class AuthRemoteDataSource {
     required String password,
   });
 
+  Future<UserModel> Logout();
+
   Future<UserModel?> getCurrentUser();
 }
 
@@ -132,5 +134,11 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
       print('Error getting current user: $e');
       return null;
     }
+  }
+
+  @override
+  Future<UserModel> Logout() {
+    // TODO: implement Logout
+    throw UnimplementedError();
   }
 }

@@ -50,20 +50,23 @@ Wlog is a Flutter-based mobile app designed to streamline video content workflow
 
 ## 📸 Media
 
-### App Logos
-![Logo 1](assets/media/1.png)   ![Logo 2](assets/media/2.png)
+Add screenshots, GIFs or videos here to showcase each major screen. For example:
 
-### Main App Screens
-![App Overview](assets/media/1.svg)
+```markdown
+### Splash Screen
+![Splash Screen](assets/media/splash.png)
+
+### Login / Sign-Up
+![Login](assets/media/login.png)   ![Sign Up](assets/media/signup.png)
 
 ### Dashboard
-![Dashboard](assets/media/dashboard.svg)
-
-### Analytics
-![Analytics](assets/media/analytics.svg)
+![Dashboard](assets/media/dashboard.png)
 
 ### Upload Flow
-![Upload](assets/media/upload.svg)
+![Upload](assets/media/upload.png)
+
+### Team Chat
+![Team Chat](assets/media/chat.png)
 
 ### Profile
-![Profile](assets/media/profile.svg)
+![Profile](assets/media/profile.png)
