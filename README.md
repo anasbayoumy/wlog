@@ -57,7 +57,7 @@ Add screenshots, GIFs or videos here to showcase each major screen. For example:
 ![Splash Screen](assets/media/upload.svg)
 
 ### Login / Sign-Up
-![Login](assets/media/login.png)   ![Sign Up](assets/media/iphone 16 pro.png)
+![Login](assets/media/login.png)   ![Sign Up](assets/media/iPhone 16 Pro.png)
 
 ### Dashboard
 ![Dashboard](assets/media/dashboard.png)
