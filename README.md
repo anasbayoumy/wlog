@@ -54,7 +54,7 @@ Add screenshots, GIFs or videos here to showcase each major screen. For example:
 
 ```markdown
 ### Splash Screen
-![Splash Screen](assets/media/uplooad.svg)
+![Splash Screen](assets/media/upload.svg)
 
 ### Login / Sign-Up
 ![Login](assets/media/login.png)   ![Sign Up](assets/media/signup.png)
