@@ -10,16 +10,6 @@ A dark-mode Flutter mobile application for marketing teams to upload, manage, an
 2. [Features](#features)  
 3. [Media](#media)  
 4. [Tech Stack](#tech-stack)  
-5. [Getting Started](#getting-started)  
-   - [Prerequisites](#prerequisites)  
-   - [Installation](#installation)  
-   - [Running the App](#running-the-app)  
-6. [Project Structure](#project-structure)  
-7. [Usage](#usage)  
-8. [Contributing](#contributing)  
-9. [License](#license)  
-10. [Contact](#contact)  
-
 ---
 
 ## 📝 About the Project
