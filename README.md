@@ -30,7 +30,7 @@ Wlog is a Flutter-based mobile app designed to streamline video content workflow
 
 - **Home / Analytics Dashboard**  
   - Video cards list with thumbnails, titles, view counts  
-  - “Best Performers” highlight card with gradient glow  
+  - "Best Performers" highlight card with gradient glow  
   - Summary cards for total videos, views, engagement rate  
 
 - **Upload Flow**  
@@ -43,30 +43,47 @@ Wlog is a Flutter-based mobile app designed to streamline video content workflow
   - Threaded messaging UI and send actions  
 
 - **Profile & Settings**  
-  - User info header, navigation to “My Videos,” “Analytics,” “Team,” and “Settings”  
+  - User info header, navigation to "My Videos," "Analytics," "Team," and "Settings"  
   - Log Out action with confirmation  
 
 ---
 
 ## 📸 Media
 
-Add screenshots, GIFs or videos here to showcase each major screen. For example:
+### Logos
+![Logo 1](assets/media/1.png)   ![Logo 2](assets/media/2.png)  
 
-```markdown
 ### Splash Screen
-![Splash Screen](assets/media/splash.png)
+ ![Logo SVG](assets/media/1.svg)
 
-### Login / Sign-Up
-![Login](assets/media/login.png)   ![Sign Up](assets/media/signup.png)
 
 ### Dashboard
-![Dashboard](assets/media/dashboard.png)
+  ![Dashboard SVG](assets/media/dashboard.svg)
 
 ### Upload Flow
-![Upload](assets/media/upload.png)
+ ![Upload SVG](assets/media/upload.svg)
 
-### Team Chat
-![Team Chat](assets/media/chat.png)
+### Analytics
+![Analytics SVG](assets/media/analytics.svg)
+
 
 ### Profile
-![Profile](assets/media/profile.png)
+![Profile SVG](assets/media/profile.svg)
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Flutter, Dart
+- **State Management**: Flutter Bloc
+- **Backend**: Supabase
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+- **Dependencies**:
+  - flutter_bloc: State management
+  - supabase_flutter: Backend integration
+  - fpdart: Functional programming
+  - image_picker: Media selection
+  - dotted_border: UI elements
+  - get_it: Dependency injection
+  - uuid: Unique identifiers

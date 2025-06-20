@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:fpdart/fpdart.dart';
 
@@ -11,6 +12,7 @@ abstract interface class BlogRepo {
     String title,
     String content,
     List<String> topics,
-    String posterId,
-  );
+    String posterId, {
+    Uint8List? webImage,
+  });
 }

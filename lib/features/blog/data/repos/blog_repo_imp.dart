@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -17,28 +19,47 @@ class BlogRepoImpl implements BlogRepo {
     String title,
     String content,
     List<String> topics,
-    String posterId,
-  ) async {
-    BlogModel blogModel = BlogModel(
-        id: const Uuid().v1(),
-        title: title,
-        content: content,
-        image: '',
-        topics: topics,
-        createdAt: DateTime.now(),
-        posterId: posterId);
-
-    final imageUrl =
-        await BlogRemoteDataSourceImpl(supabaseClient: supabaseClient)
-            .uploadBlogImage(image, blogModel.id);
-    blogModel = blogModel.copyWith(image: imageUrl);
+    String posterId, {
+    Uint8List? webImage,
+  }) async {
     try {
+      print('BlogRepo: Creating blog model'); // Debug log
+      BlogModel blogModel = BlogModel(
+          id: const Uuid().v1(),
+          title: title,
+          content: content,
+          image: '',
+          topics: topics,
+          createdAt: DateTime.now(),
+          posterId: posterId);
+
+      print('BlogRepo: Uploading image for blog: ${blogModel.id}'); // Debug log
+      final dataSource =
+          BlogRemoteDataSourceImpl(supabaseClient: supabaseClient);
+
+      final String imageUrl;
+      if (kIsWeb && webImage != null) {
+        print('BlogRepo: Using web image upload'); // Debug log
+        imageUrl = await dataSource.uploadBlogImageWeb(
+            webImage, blogModel.id, 'image.jpg');
+      } else {
+        print('BlogRepo: Using file image upload'); // Debug log
+        imageUrl = await dataSource.uploadBlogImage(image, blogModel.id);
+      }
+
+      print('BlogRepo: Image uploaded, URL: $imageUrl'); // Debug log
+      blogModel = blogModel.copyWith(image: imageUrl);
+
+      print('BlogRepo: Uploading blog data'); // Debug log
       final blog =
           await BlogRemoteDataSourceImpl(supabaseClient: supabaseClient)
               .uploadBlog(blogModel);
+
+      print('BlogRepo: Blog uploaded successfully'); // Debug log
       return right(blog);
     } catch (e) {
-      return left(Failure(e.toString()));
+      print('BlogRepo: Error occurred: $e'); // Debug log
+      return left(Failure('Blog upload failed: ${e.toString()}'));
     }
   }
 }

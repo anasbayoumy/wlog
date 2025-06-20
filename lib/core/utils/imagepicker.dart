@@ -1,29 +1,25 @@
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
-Future<File?> pickImageFromGallery() async {
+// Single function that can pick from either source
+Future<File?> pickImage({required ImageSource source}) async {
   try {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final image = await ImagePicker().pickImage(source: source);
     if (image != null) {
       return File(image.path);
-    } else {
-      return null;
     }
+    return null;
   } catch (e) {
+    print('Error picking image: $e');
     return null;
   }
 }
 
+// Helper functions that use the main function
+Future<File?> pickImageFromGallery() async {
+  return pickImage(source: ImageSource.gallery);
+}
+
 Future<File?> pickImageFromCamera() async {
-  try {
-    final image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (image != null) {
-      return File(image.path);
-    } else {
-      return null;
-    }
-  } catch (e) {
-    return null;
-  }
+  return pickImage(source: ImageSource.camera);
 }

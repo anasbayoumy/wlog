@@ -9,6 +9,7 @@ class BlogModel extends Blog {
       required super.topics,
       required super.createdAt,
       required super.posterId});
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -27,11 +28,11 @@ class BlogModel extends Blog {
       title: map['title'] as String,
       content: map['content'] as String,
       image: map['image_url'] as String,
-      topics: map['topics'] as List<String>,
+      topics: (map['topics'] as List<dynamic>?)?.cast<String>() ?? [],
       createdAt: map['created_at'] == null
           ? DateTime.now()
           : DateTime.parse(map['created_at']),
-      posterId: map['poster_id'],
+      posterId: map['poster_id'] as String,
     );
   }
 

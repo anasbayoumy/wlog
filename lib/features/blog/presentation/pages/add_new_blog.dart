@@ -1,8 +1,10 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:typed_data';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wlog/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:wlog/core/common/widgets/app_navigation_bar.dart';
 import 'package:wlog/core/theme/theme_pallet.dart';
@@ -23,24 +25,89 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   final TextEditingController contentController = TextEditingController();
   List<String> selectedTags = [];
   File? imagePicked;
+  Uint8List? webImage; // For web platforms
   final formKey = GlobalKey<FormState>();
 
-  void pickImageFromGalleryBlog() async {
-    final image = await pickImageFromGallery();
-    if (image != null) {
-      setState(() {
-        imagePicked = image;
-      });
+  // Function to pick image from specified source
+  void selectImage(ImageSource source) async {
+    if (kIsWeb) {
+      // Web implementation
+      final picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: source);
+      if (image != null) {
+        var f = await image.readAsBytes();
+        setState(() {
+          webImage = f;
+          imagePicked = File("dummy"); // Dummy file for web
+        });
+      }
+    } else {
+      // Mobile/desktop implementation
+      final image = await pickImage(source: source);
+      if (image != null) {
+        setState(() {
+          imagePicked = image;
+        });
+      }
     }
   }
 
-  void pickImageFromCameraBlog() async {
-    final image = await pickImageFromCamera();
-    if (image != null) {
-      setState(() {
-        imagePicked = image;
-      });
+  // Gallery picker helper
+  void pickImageFromGalleryBlog() async {
+    if (kIsWeb) {
+      selectImage(ImageSource.gallery);
+    } else {
+      final image = await pickImageFromGallery();
+      if (image != null) {
+        setState(() {
+          imagePicked = image;
+        });
+      }
     }
+  }
+
+  // Camera picker helper
+  void pickImageFromCameraBlog() async {
+    if (kIsWeb) {
+      selectImage(ImageSource.camera);
+    } else {
+      final image = await pickImageFromCamera();
+      if (image != null) {
+        setState(() {
+          imagePicked = image;
+        });
+      }
+    }
+  }
+
+  // Helper method to show image source dialog
+  void showImageSourceDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Select Image'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                pickImageFromGalleryBlog();
+              },
+              child: const Text('Gallery'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                pickImageFromCameraBlog();
+              },
+              child: const Text('Camera'),
+            ),
+          ],
+        ),
+      ),
+      barrierDismissible: true,
+    );
   }
 
   @override
@@ -60,18 +127,44 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           IconButton(
             onPressed: () {
               if (formKey.currentState!.validate() &&
-                  imagePicked != null &&
+                  (imagePicked != null || webImage != null) &&
                   selectedTags.isNotEmpty) {
                 final posterId = context.read<AppUserCubit>().state.user?.id;
-                if (posterId != null) {
-                  context.read<BlogBloc>().add(UploadBlogEvent(
-                        image: imagePicked!,
-                        title: titleController.text,
-                        content: contentController.text,
-                        topics: selectedTags,
-                        posterId: posterId,
-                      ));
+                if (posterId == null || posterId.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content:
+                          Text('User not authenticated. Please login again.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
                 }
+                print('Starting blog upload for user: $posterId'); // Debug log
+                context.read<BlogBloc>().add(UploadBlogEvent(
+                      image: imagePicked!,
+                      title: titleController.text.trim(),
+                      content: contentController.text.trim(),
+                      topics: selectedTags,
+                      posterId: posterId,
+                      webImage: webImage, // Pass webImage for web platforms
+                    ));
+              } else {
+                // Show validation errors
+                String errorMessage = '';
+                if (!formKey.currentState!.validate()) {
+                  errorMessage = 'Please fill in all required fields.';
+                } else if (imagePicked == null && webImage == null) {
+                  errorMessage = 'Please select an image.';
+                } else if (selectedTags.isEmpty) {
+                  errorMessage = 'Please select at least one tag.';
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(errorMessage),
+                    backgroundColor: Colors.orange,
+                  ),
+                );
               }
             },
             icon: const Icon(Icons.save),
@@ -106,43 +199,28 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    imagePicked != null
+                    (imagePicked != null || webImage != null)
                         ? GestureDetector(
                             onTap: () {
-                              pickImageFromGalleryBlog();
+                              showImageSourceDialog();
                             },
                             child: SizedBox(
                               width: double.infinity,
                               height: 150,
-                              child: Image.file(
-                                imagePicked!,
-                                fit: BoxFit.cover,
-                              ),
+                              child: kIsWeb
+                                  ? Image.memory(
+                                      webImage!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.file(
+                                      imagePicked!,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           )
                         : GestureDetector(
                             onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Select Image'),
-                                  content: Column(
-                                    children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            pickImageFromGalleryBlog();
-                                          },
-                                          child: const Text('Gallery')),
-                                      TextButton(
-                                          onPressed: () {
-                                            pickImageFromCameraBlog();
-                                          },
-                                          child: const Text('Camera')),
-                                    ],
-                                  ),
-                                ),
-                                barrierDismissible: true,
-                              );
+                              showImageSourceDialog();
                             },
                             child: DottedBorder(
                               radius: const Radius.circular(20),
@@ -163,6 +241,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                               ),
                             ),
                           ),
+                    // Rest of your code remains the same
                     const SizedBox(height: 20),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
