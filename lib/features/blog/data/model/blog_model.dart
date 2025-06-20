@@ -17,7 +17,7 @@ class BlogModel extends Blog {
       'content': content,
       'image_url': image,
       'topics': topics,
-      'created_at': createdAt,
+      // 'created_at': createdAt.toIso8601String(), // Commented out - column doesn't exist
       'poster_id': posterId,
     };
   }
