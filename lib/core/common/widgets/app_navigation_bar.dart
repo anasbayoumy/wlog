@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wlog/features/blog/presentation/pages/blog_page.dart';
 import 'package:wlog/features/blog/presentation/pages/add_new_blog.dart';
+import 'package:wlog/features/profile/presentation/pages/profile_page.dart';
 
 class AppNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -41,8 +42,9 @@ class AppNavigationBar extends StatelessWidget {
             );
             break;
           case 4: // Profile
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Profile page coming soon')),
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfilePage()),
             );
             break;
         }

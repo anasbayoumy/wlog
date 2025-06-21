@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wlog/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:wlog/core/common/cubits/theme/theme_cubit.dart';
 import 'package:wlog/core/theme/theme.dart';
 import 'package:wlog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:wlog/features/auth/presentation/pages/loginpage.dart';
@@ -27,6 +28,9 @@ void main() async {
       BlocProvider(
         create: (context) => serviceLocator<BlogBloc>(),
       ),
+      BlocProvider(
+        create: (context) => serviceLocator<ThemeCubit>(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -48,16 +52,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'WLOG',
-      theme: AppTheme.DarkModeTheme,
-      debugShowCheckedModeBanner: false,
-      home: BlocSelector<AppUserCubit, AppUserState, bool>(
-        selector: (state) => state is IsLoggedIn,
-        builder: (context, isLoggedIn) {
-          return isLoggedIn ? const BlogPage() : const LoginPage();
-        },
-      ),
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, themeState) {
+        return MaterialApp(
+          title: 'WLOG',
+          theme:
+              themeState.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,
+          debugShowCheckedModeBanner: false,
+          home: BlocSelector<AppUserCubit, AppUserState, bool>(
+            selector: (state) => state is IsLoggedIn,
+            builder: (context, isLoggedIn) {
+              return isLoggedIn ? const BlogPage() : const LoginPage();
+            },
+          ),
+        );
+      },
     );
   }
 }

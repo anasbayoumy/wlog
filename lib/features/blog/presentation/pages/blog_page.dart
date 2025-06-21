@@ -98,12 +98,6 @@ class _BlogPageState extends State<BlogPage> {
             },
             icon: const Icon(Icons.add_circle_outline_rounded),
           ),
-          IconButton(
-            onPressed: () async {
-              await _logout(context);
-            },
-            icon: const Icon(Icons.logout_outlined),
-          ),
         ],
       ),
       body: BlocBuilder<BlogBloc, BlogState>(
