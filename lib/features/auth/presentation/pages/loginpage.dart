@@ -4,6 +4,7 @@ import 'package:wlog/core/common/widgets/loader.dart';
 import 'package:wlog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:wlog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:wlog/features/auth/presentation/widgets/auth_gradientbtn.dart';
+import 'package:wlog/features/blog/presentation/pages/blog_page.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,14 +30,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        // Navigation is handled automatically by the main app's BlocSelector
-        // No manual navigation needed here
         if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
               backgroundColor: Colors.red,
             ),
+          );
+        } else if (state is AuthSuccess) {
+          // Login successful - navigate to blog page
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const BlogPage()),
+            (route) => false,
           );
         }
       },

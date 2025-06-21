@@ -173,7 +173,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
-          if (state is BlogSuccess) {
+          if (state is BlogUploadSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Blog uploaded successfully')),
             );

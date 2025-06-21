@@ -10,6 +10,7 @@ abstract interface class BlogRemoteDataSource {
   Future<String> uploadBlogImage(File image, String blogId);
   Future<String> uploadBlogImageWeb(
       Uint8List imageBytes, String blogId, String fileName);
+  Future<List<BlogModel>> getAllBlogs();
 }
 
 class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
@@ -67,6 +68,32 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
       print('Blog ID: $blogId'); // Debug log
       throw ServerException(
           message: 'Failed to upload web image: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<List<BlogModel>> getAllBlogs() async {
+    try {
+      // Get current user ID
+      final currentUser = supabaseClient.auth.currentUser;
+      if (currentUser == null) {
+        throw ServerException(message: 'User not authenticated');
+      }
+
+      // Fetch only blogs for the current user
+      final res = await supabaseClient
+          .from('blogs')
+          .select('* , profiles(name)')
+          .eq('poster_id', currentUser.id);
+
+      print('Fetched ${res.length} blogs for user: ${currentUser.id}');
+      return res
+          .map((res) => BlogModel.fromJson(res).copyWith(
+                posterName: res['profiles']['name'],
+              ))
+          .toList();
+    } catch (e) {
+      throw ServerException(message: e.toString());
     }
   }
 }

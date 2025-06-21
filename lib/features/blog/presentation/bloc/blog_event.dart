@@ -10,7 +10,7 @@ class UploadBlogEvent extends BlogEvent {
   final String content;
   final List<String> topics;
   final String posterId;
-  final Uint8List? webImage; // Add this field
+  final Uint8List? webImage;
 
   UploadBlogEvent({
     required this.image,
@@ -18,6 +18,8 @@ class UploadBlogEvent extends BlogEvent {
     required this.content,
     required this.topics,
     required this.posterId,
-    this.webImage, // Optional parameter for web
+    this.webImage,
   });
 }
+
+final class GetAllBlogsEvent extends BlogEvent {}

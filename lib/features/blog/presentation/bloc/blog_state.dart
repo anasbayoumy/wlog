@@ -7,7 +7,12 @@ final class BlogInitial extends BlogState {}
 
 final class BlogLoading extends BlogState {}
 
-final class BlogSuccess extends BlogState {}
+final class BlogUploadSuccess extends BlogState {}
+
+final class BlogDisplaySuccess extends BlogState {
+  final List<Blog> blogs;
+  BlogDisplaySuccess({required this.blogs});
+}
 
 class BlogFailure extends BlogState {
   final String message;

@@ -12,7 +12,8 @@ import 'package:wlog/features/blog/domain/repos/blog_repo.dart';
 
 class BlogRepoImpl implements BlogRepo {
   final SupabaseClient supabaseClient;
-  BlogRepoImpl({required this.supabaseClient});
+  final BlogRemoteDataSource blogRemoteDataSource;
+  BlogRepoImpl(this.blogRemoteDataSource, {required this.supabaseClient});
   @override
   Future<Either<Failure, Blog>> uploadBlog(
     File image,
@@ -60,6 +61,16 @@ class BlogRepoImpl implements BlogRepo {
     } catch (e) {
       print('BlogRepo: Error occurred: $e'); // Debug log
       return left(Failure('Blog upload failed: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Blog>>> getAllBlogs() async {
+    try {
+      final res = await blogRemoteDataSource.getAllBlogs();
+      return right(res);
+    } catch (e) {
+      return left(Failure(e.toString()));
     }
   }
 }

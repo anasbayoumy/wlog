@@ -15,4 +15,6 @@ abstract interface class BlogRepo {
     String posterId, {
     Uint8List? webImage,
   });
+
+  Future<Either<Failure, List<Blog>>> getAllBlogs();
 }
