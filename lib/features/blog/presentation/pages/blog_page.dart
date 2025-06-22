@@ -138,7 +138,7 @@ class _BlogPageState extends State<BlogPage> {
                                 blog.image,
                                 width: double.infinity,
                                 height: 200,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
                                     width: double.infinity,
