@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/features/blog/data/model/blog_model.dart';

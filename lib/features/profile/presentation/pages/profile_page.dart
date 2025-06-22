@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:wlog/core/common/cubits/theme/theme_cubit.dart';
 import 'package:wlog/core/common/widgets/app_navigation_bar.dart';
 import 'package:wlog/features/auth/presentation/pages/loginpage.dart';
 import 'package:wlog/features/profile/presentation/widgets/profile_header.dart';
@@ -137,10 +136,44 @@ class ProfilePage extends StatelessWidget {
                       subtitle: const Text('App version and information'),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
-                        // TODO: Navigate to about page
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('About page coming soon!')),
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Row(
+                              children: [
+                                Icon(Icons.info_outline, color: Colors.blue),
+                                SizedBox(width: 8),
+                                Text('About wlog'),
+                              ],
+                            ),
+                            content: const Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Version: 1.0.0',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  'Restriction: For sofindex company only',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  '© 2025 Sofindex. All rights reserved.',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('Close'),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),

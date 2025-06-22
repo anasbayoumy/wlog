@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wlog/core/common/widgets/loader.dart';
 import 'package:wlog/core/theme/theme_pallet.dart';
 import 'package:wlog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:wlog/features/auth/presentation/widgets/auth_email_field.dart';
 import 'package:wlog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:wlog/features/auth/presentation/widgets/auth_gradientbtn.dart';
 
@@ -82,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         controller: nameController,
                       ),
                       const SizedBox(height: 20),
-                      AuthField(
+                      AuthEmailField(
                         hintText: 'Email',
                         controller: emailController,
                       ),
