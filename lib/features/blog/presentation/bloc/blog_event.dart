@@ -23,3 +23,5 @@ class UploadBlogEvent extends BlogEvent {
 }
 
 final class GetAllBlogsEvent extends BlogEvent {}
+
+final class GetAllBlogsForAnalyticsEvent extends BlogEvent {}

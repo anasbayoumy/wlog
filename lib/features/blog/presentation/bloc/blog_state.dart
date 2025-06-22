@@ -14,6 +14,11 @@ final class BlogDisplaySuccess extends BlogState {
   BlogDisplaySuccess({required this.blogs});
 }
 
+final class BlogAnalyticsSuccess extends BlogState {
+  final List<Blog> blogs;
+  BlogAnalyticsSuccess({required this.blogs});
+}
+
 class BlogFailure extends BlogState {
   final String message;
   BlogFailure({required this.message});

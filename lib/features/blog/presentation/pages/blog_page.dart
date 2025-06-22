@@ -151,25 +151,25 @@ class _BlogPageState extends State<BlogPage> {
                             ),
                           const SizedBox(height: 12),
                           // Author Name
-                          if (blog.posterName != null)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.person,
-                                      size: 16, color: Colors.grey),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'By ${blog.posterName}',
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          // if (blog.posterName != null)
+                          //   Padding(
+                          //     padding: const EdgeInsets.only(bottom: 8),
+                          //     child: Row(
+                          //       children: [
+                          //         const Icon(Icons.person,
+                          //             size: 16, color: Colors.grey),
+                          //         const SizedBox(width: 4),
+                          //         Text(
+                          //           'By ${blog.posterName}',
+                          //           style: const TextStyle(
+                          //             fontSize: 12,
+                          //             color: Colors.grey,
+                          //             fontStyle: FontStyle.italic,
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
                           // Blog Title
                           Text(
                             blog.title,
@@ -197,7 +197,8 @@ class _BlogPageState extends State<BlogPage> {
                                           topic,
                                           style: const TextStyle(fontSize: 12),
                                         ),
-                                        backgroundColor: Colors.blue[100],
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 42, 84, 118),
                                       ))
                                   .toList(),
                             ),

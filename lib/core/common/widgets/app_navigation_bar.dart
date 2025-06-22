@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wlog/features/analytics/presentation/pages/analytics_page.dart';
 import 'package:wlog/features/blog/presentation/pages/blog_page.dart';
 import 'package:wlog/features/blog/presentation/pages/add_new_blog.dart';
+import 'package:wlog/features/chat/presentation/pages/chat_groups_page.dart';
 import 'package:wlog/features/profile/presentation/pages/profile_page.dart';
 
 class AppNavigationBar extends StatelessWidget {
@@ -22,29 +24,116 @@ class AppNavigationBar extends StatelessWidget {
           case 0: // Home
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const BlogPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const BlogPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(-1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    )),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 300),
+              ),
             );
             break;
           case 1: // Analytics
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Analytics page coming soon')),
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const AnalyticsPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.0, -1.0),
+                      end: Offset.zero,
+                    ).animate(CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    )),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 300),
+              ),
             );
             break;
           case 2: // Add Blog
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const AddNewBlogPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const AddNewBlogPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return ScaleTransition(
+                    scale: Tween<double>(
+                      begin: 0.0,
+                      end: 1.0,
+                    ).animate(CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.elasticOut,
+                    )),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 400),
+              ),
             );
             break;
           case 3: // Chat
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Chat page coming soon')),
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const ChatGroupsPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    )),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 300),
+              ),
             );
             break;
           case 4: // Profile
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const ProfilePage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const ProfilePage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.0, 1.0),
+                      end: Offset.zero,
+                    ).animate(CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    )),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 300),
+              ),
             );
             break;
         }

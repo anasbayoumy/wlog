@@ -16,14 +16,58 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
   final formkey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  late AnimationController _fadeController;
+  late AnimationController _slideController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize animation controllers
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+
+    // Initialize animations
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeInOut,
+    ));
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _slideController,
+      curve: Curves.easeOutCubic,
+    ));
+
+    // Start animations
+    _fadeController.forward();
+    _slideController.forward();
+  }
+
   @override
   void dispose() {
+    _fadeController.dispose();
+    _slideController.dispose();
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -64,81 +108,262 @@ class _SignUpPageState extends State<SignUpPage> {
           if (state is AuthLoading) {
             return const Loader();
           }
-          return Center(
-            child: Form(
-              key: formkey,
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Sign Up',
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 50),
-                      AuthField(
-                        hintText: 'Full Name',
-                        controller: nameController,
-                      ),
-                      const SizedBox(height: 20),
-                      AuthEmailField(
-                        hintText: 'Email',
-                        controller: emailController,
-                      ),
-                      const SizedBox(height: 20),
-                      AuthField(
-                        hintText: 'Password',
-                        controller: passwordController,
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 20),
-                      BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          return AuthGradientbtn(
-                            text: state is AuthLoading
-                                ? "Signing Up..."
-                                : "Sign Up",
-                            onPressed: state is AuthLoading
-                                ? null
-                                : () {
-                                    if (formkey.currentState!.validate()) {
-                                      context.read<AuthBloc>().add(
-                                            SignUpEvent(
-                                              email:
-                                                  emailController.text.trim(),
-                                              password: passwordController.text
-                                                  .trim(),
-                                              name: nameController.text.trim(),
-                                            ),
-                                          );
-                                    }
-                                  },
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 40),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Already have an account? ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+          return Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.purple.shade50,
+                  Colors.blue.shade50,
+                ],
+              ),
+            ),
+            child: SafeArea(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: Card(
+                          elevation: 12,
+                          shadowColor: Colors.black26,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
-                              },
-                              child: const Text("LOGIN")),
-                        ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(32.0),
+                            child: Form(
+                              key: formkey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // App Logo/Icon with Hero Animation
+                                  Hero(
+                                    tag: 'app_logo',
+                                    child: Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.purple.shade400,
+                                            Colors.blue.shade400,
+                                          ],
+                                        ),
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.purple.withOpacity(0.3),
+                                            blurRadius: 15,
+                                            offset: const Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Icon(
+                                        Icons.person_add,
+                                        size: 40,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 24),
+
+                                  // Welcome Text
+                                  const Text(
+                                    'Create Account',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Join WLog and start blogging',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 40),
+                                  // Name Field with Animation
+                                  TweenAnimationBuilder<double>(
+                                    duration: const Duration(milliseconds: 800),
+                                    tween: Tween(begin: 0.0, end: 1.0),
+                                    builder: (context, value, child) {
+                                      return Transform.translate(
+                                        offset: Offset(0, 20 * (1 - value)),
+                                        child: Opacity(
+                                          opacity: value,
+                                          child: AuthField(
+                                            hintText: 'Full Name',
+                                            controller: nameController,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 20),
+
+                                  // Email Field with Animation
+                                  TweenAnimationBuilder<double>(
+                                    duration:
+                                        const Duration(milliseconds: 1000),
+                                    tween: Tween(begin: 0.0, end: 1.0),
+                                    builder: (context, value, child) {
+                                      return Transform.translate(
+                                        offset: Offset(0, 20 * (1 - value)),
+                                        child: Opacity(
+                                          opacity: value,
+                                          child: AuthEmailField(
+                                            hintText: 'Email',
+                                            controller: emailController,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 20),
+
+                                  // Password Field with Animation
+                                  TweenAnimationBuilder<double>(
+                                    duration:
+                                        const Duration(milliseconds: 1200),
+                                    tween: Tween(begin: 0.0, end: 1.0),
+                                    builder: (context, value, child) {
+                                      return Transform.translate(
+                                        offset: Offset(0, 20 * (1 - value)),
+                                        child: Opacity(
+                                          opacity: value,
+                                          child: AuthField(
+                                            hintText: 'Password',
+                                            controller: passwordController,
+                                            isPassword: true,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 32),
+
+                                  // Sign Up Button with Animation
+                                  TweenAnimationBuilder<double>(
+                                    duration:
+                                        const Duration(milliseconds: 1400),
+                                    tween: Tween(begin: 0.0, end: 1.0),
+                                    builder: (context, value, child) {
+                                      return Transform.scale(
+                                        scale: value,
+                                        child: BlocBuilder<AuthBloc, AuthState>(
+                                          builder: (context, state) {
+                                            return AuthGradientbtn(
+                                              text: state is AuthLoading
+                                                  ? "Signing Up..."
+                                                  : "Sign Up",
+                                              onPressed: state is AuthLoading
+                                                  ? null
+                                                  : () {
+                                                      if (formkey.currentState!
+                                                          .validate()) {
+                                                        context
+                                                            .read<AuthBloc>()
+                                                            .add(
+                                                              SignUpEvent(
+                                                                email:
+                                                                    emailController
+                                                                        .text
+                                                                        .trim(),
+                                                                password:
+                                                                    passwordController
+                                                                        .text
+                                                                        .trim(),
+                                                                name:
+                                                                    nameController
+                                                                        .text
+                                                                        .trim(),
+                                                              ),
+                                                            );
+                                                      }
+                                                    },
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 32),
+
+                                  // Login Link with Animation
+                                  TweenAnimationBuilder<double>(
+                                    duration:
+                                        const Duration(milliseconds: 1600),
+                                    tween: Tween(begin: 0.0, end: 1.0),
+                                    builder: (context, value, child) {
+                                      return Opacity(
+                                        opacity: value,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Already have an account? ',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  PageRouteBuilder(
+                                                    pageBuilder: (context,
+                                                            animation,
+                                                            secondaryAnimation) =>
+                                                        const LoginPage(),
+                                                    transitionsBuilder:
+                                                        (context,
+                                                            animation,
+                                                            secondaryAnimation,
+                                                            child) {
+                                                      return SlideTransition(
+                                                        position: Tween<Offset>(
+                                                          begin: const Offset(
+                                                              -1.0, 0.0),
+                                                          end: Offset.zero,
+                                                        ).animate(animation),
+                                                        child: child,
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                              child: const Text(
+                                                "LOGIN",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ]),
+                    ),
+                  ),
+                ),
               ),
             ),
           );

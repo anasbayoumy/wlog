@@ -17,4 +17,5 @@ abstract interface class BlogRepo {
   });
 
   Future<Either<Failure, List<Blog>>> getAllBlogs();
+  Future<Either<Failure, List<Blog>>> getAllBlogsForAnalytics();
 }

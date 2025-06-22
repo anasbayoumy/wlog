@@ -199,108 +199,180 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    (imagePicked != null || webImage != null)
-                        ? GestureDetector(
-                            onTap: () {
-                              showImageSourceDialog();
-                            },
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 150,
-                              child: kIsWeb
-                                  ? Image.memory(
-                                      webImage!,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.file(
-                                      imagePicked!,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              showImageSourceDialog();
-                            },
-                            child: DottedBorder(
-                              radius: const Radius.circular(20),
-                              color: Colors.grey,
-                              borderType: BorderType.RRect,
-                              dashPattern: const [10, 5],
-                              child: const SizedBox(
-                                height: 150,
+                    // Image Upload Section with Animation
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 600),
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: Opacity(
+                            opacity: value,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: (imagePicked != null || webImage != null)
+                          ? GestureDetector(
+                              onTap: () {
+                                showImageSourceDialog();
+                              },
+                              child: SizedBox(
                                 width: double.infinity,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.drive_folder_upload_rounded),
-                                    SizedBox(height: 20),
-                                    Text('Upload'),
-                                  ],
+                                height: 150,
+                                child: kIsWeb
+                                    ? Image.memory(
+                                        webImage!,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.file(
+                                        imagePicked!,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                showImageSourceDialog();
+                              },
+                              child: DottedBorder(
+                                radius: const Radius.circular(20),
+                                color: Colors.grey,
+                                borderType: BorderType.RRect,
+                                dashPattern: const [10, 5],
+                                child: const SizedBox(
+                                  height: 150,
+                                  width: double.infinity,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.drive_folder_upload_rounded),
+                                      SizedBox(height: 20),
+                                      Text('Upload'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
+                    ),
+
+                    // Tags Section with Animation
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 800),
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: Opacity(
+                            opacity: value,
+                            child: child,
                           ),
-                    // Rest of your code remains the same
-                    const SizedBox(height: 20),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
+                        );
+                      },
+                      child: Column(
                         children: [
-                          'Title1',
-                          'title2',
-                          'title3',
-                          'title4',
-                          'title5',
-                          'title6',
-                          'title7',
-                          'title8',
-                          'title9',
-                        ]
-                            .map((e) => Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (selectedTags.contains(e)) {
-                                        setState(() {
-                                          selectedTags.remove(e);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selectedTags.add(e);
-                                        });
-                                      }
-                                    },
-                                    child: Chip(
-                                      label: Text(e),
-                                      backgroundColor: selectedTags.contains(e)
-                                          ? AppPallete.gradient1
-                                          : Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        side: BorderSide(
-                                          color: selectedTags.contains(e)
-                                              ? AppPallete.backgroundColor
-                                              : Colors.grey,
+                          const SizedBox(height: 20),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                'Title1',
+                                'title2',
+                                'title3',
+                                'title4',
+                                'title5',
+                                'title6',
+                                'title7',
+                                'title8',
+                                'title9',
+                              ]
+                                  .map((e) => Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            if (selectedTags.contains(e)) {
+                                              setState(() {
+                                                selectedTags.remove(e);
+                                              });
+                                            } else {
+                                              setState(() {
+                                                selectedTags.add(e);
+                                              });
+                                            }
+                                          },
+                                          child: Chip(
+                                            label: Text(e),
+                                            backgroundColor:
+                                                selectedTags.contains(e)
+                                                    ? AppPallete.gradient1
+                                                    : Colors.transparent,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              side: BorderSide(
+                                                color: selectedTags.contains(e)
+                                                    ? AppPallete.backgroundColor
+                                                    : Colors.grey,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    TextFieldContent(
-                      hintText: 'Vlog Title',
-                      controller: titleController,
-                      maxlines: 1,
+
+                    // Title Field with Animation
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 1000),
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: Opacity(
+                            opacity: value,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFieldContent(
+                            hintText: 'Vlog Title',
+                            controller: titleController,
+                            maxlines: 1,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 20),
-                    TextFieldContent(
-                      hintText: 'Vlog Content',
-                      controller: contentController,
-                      maxlines: null,
+
+                    // Content Field with Animation
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 1200),
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: Opacity(
+                            opacity: value,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFieldContent(
+                            hintText: 'Vlog Content',
+                            controller: contentController,
+                            maxlines: null,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
