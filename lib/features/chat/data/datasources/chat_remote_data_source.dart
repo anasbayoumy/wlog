@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wlog/core/error/exceptions.dart';
 import 'package:wlog/features/chat/data/models/chat_group_model.dart';

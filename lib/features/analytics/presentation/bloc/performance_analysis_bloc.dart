@@ -15,27 +15,37 @@ abstract class PerformanceAnalysisEvent extends Equatable {
 class StartPerformanceAnalysisEvent extends PerformanceAnalysisEvent {
   final String blogId;
   final String imagePath;
+  final String? blogTitle;
+  final String? blogContent;
 
   const StartPerformanceAnalysisEvent({
     required this.blogId,
     required this.imagePath,
+    this.blogTitle,
+    this.blogContent,
   });
 
   @override
-  List<Object> get props => [blogId, imagePath];
+  List<Object> get props =>
+      [blogId, imagePath, blogTitle ?? '', blogContent ?? ''];
 }
 
 class RetryPerformanceAnalysisEvent extends PerformanceAnalysisEvent {
   final String blogId;
   final String imagePath;
+  final String? blogTitle;
+  final String? blogContent;
 
   const RetryPerformanceAnalysisEvent({
     required this.blogId,
     required this.imagePath,
+    this.blogTitle,
+    this.blogContent,
   });
 
   @override
-  List<Object> get props => [blogId, imagePath];
+  List<Object> get props =>
+      [blogId, imagePath, blogTitle ?? '', blogContent ?? ''];
 }
 
 // States
@@ -102,29 +112,40 @@ class PerformanceAnalysisBloc
     StartPerformanceAnalysisEvent event,
     Emitter<PerformanceAnalysisState> emit,
   ) async {
-    await _performAnalysis(event.blogId, event.imagePath, emit);
+    await _performAnalysis(event.blogId, event.imagePath, emit,
+        blogTitle: event.blogTitle, blogContent: event.blogContent);
   }
 
   Future<void> _onRetryPerformanceAnalysis(
     RetryPerformanceAnalysisEvent event,
     Emitter<PerformanceAnalysisState> emit,
   ) async {
-    await _performAnalysis(event.blogId, event.imagePath, emit);
+    await _performAnalysis(event.blogId, event.imagePath, emit,
+        blogTitle: event.blogTitle, blogContent: event.blogContent);
   }
 
   Future<void> _performAnalysis(
     String blogId,
     String imagePath,
-    Emitter<PerformanceAnalysisState> emit,
-  ) async {
+    Emitter<PerformanceAnalysisState> emit, {
+    String? blogTitle,
+    String? blogContent,
+  }) async {
     try {
-      // Step 1: Analyze image
+      // Step 1: Analyze image with blog context
       emit(const PerformanceAnalysisLoading(
         currentStep: 'Analyzing image content...',
         progress: 0.25,
       ));
 
-      final imageAnalysis = await _imageAnalysisService.analyzeImage(imagePath);
+      // Get enhanced image analysis with blog context
+      final imageAnalysisImpl =
+          _imageAnalysisService as ImageAnalysisServiceImpl;
+      final imageAnalysis = await imageAnalysisImpl.analyzeImageWithContext(
+        imagePath,
+        blogTitle: blogTitle,
+        blogContent: blogContent,
+      );
 
       // Step 2: Scrape social media trends
       emit(const PerformanceAnalysisLoading(

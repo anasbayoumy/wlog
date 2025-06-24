@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wlog/core/theme/theme_pallet.dart';
 
 class AuthGradientbtn extends StatelessWidget {
   final String text;
@@ -14,23 +13,44 @@ class AuthGradientbtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 56,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          gradient: const RadialGradient(
-              colors: [AppPallete.gradient1, AppPallete.gradient2])),
-      child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppPallete.transparentColor,
-            shadowColor: AppPallete.transparentColor,
-            maximumSize: const Size(600, 50),
+        borderRadius: BorderRadius.circular(16),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF667EEA),
+            Color(0xFF764BA2),
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF667EEA).withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
-          child: Text(text,
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            alignment: Alignment.center,
+            child: Text(
+              text,
               style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 1.1))),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

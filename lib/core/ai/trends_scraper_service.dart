@@ -1,14 +1,16 @@
+import 'gemini_ai_service.dart';
+
 /// Service for scraping social media trends in software category
 abstract class TrendsScraperService {
   /// Scrape current trends from various social media platforms
   Future<List<TrendData>> scrapeSoftwareTrends();
-  
+
   /// Get trending topics for specific category
   Future<List<TrendData>> getTrendingTopics(String category);
-  
+
   /// Analyze trend performance metrics
   Future<TrendAnalysis> analyzeTrendPerformance(List<String> keywords);
-  
+
   /// Get competitor analysis data
   Future<List<CompetitorData>> getCompetitorAnalysis(List<String> keywords);
 }
@@ -107,8 +109,10 @@ class TrendAnalysis {
     return TrendAnalysis(
       topKeywords: List<String>.from(json['topKeywords'] ?? []),
       emergingTrends: List<String>.from(json['emergingTrends'] ?? []),
-      keywordPerformance: Map<String, double>.from(json['keywordPerformance'] ?? {}),
-      platformDistribution: Map<String, int>.from(json['platformDistribution'] ?? {}),
+      keywordPerformance:
+          Map<String, double>.from(json['keywordPerformance'] ?? {}),
+      platformDistribution:
+          Map<String, int>.from(json['platformDistribution'] ?? {}),
       overallTrendScore: (json['overallTrendScore'] ?? 0.0).toDouble(),
       recommendations: List<String>.from(json['recommendations'] ?? []),
     );
@@ -146,7 +150,8 @@ class CompetitorData {
       competitorName: json['competitorName'] ?? '',
       platform: json['platform'] ?? '',
       topContent: List<String>.from(json['topContent'] ?? []),
-      performanceMetrics: Map<String, double>.from(json['performanceMetrics'] ?? {}),
+      performanceMetrics:
+          Map<String, double>.from(json['performanceMetrics'] ?? {}),
       strategies: List<String>.from(json['strategies'] ?? []),
     );
   }
@@ -157,19 +162,12 @@ class TrendsScraperServiceImpl implements TrendsScraperService {
   @override
   Future<List<TrendData>> scrapeSoftwareTrends() async {
     try {
-      // TODO: Implement actual scraping logic
-      // This would integrate with APIs like:
-      // - Twitter API
-      // - Reddit API
-      // - LinkedIn API
-      // - GitHub Trending
-      // - Product Hunt API
-      
-      await Future.delayed(const Duration(seconds: 3)); // Simulate API calls
-      
-      return _generateMockTrendData();
+      // Use Gemini AI to generate realistic current trends
+      return await GeminiAIService.generateSoftwareTrends();
     } catch (e) {
-      throw TrendsScraperException('Failed to scrape software trends: $e');
+      print('Gemini trends generation failed, using fallback: $e');
+      // Fallback to mock trends if Gemini fails
+      return _generateMockTrendData();
     }
   }
 
@@ -183,12 +181,17 @@ class TrendsScraperServiceImpl implements TrendsScraperService {
   Future<TrendAnalysis> analyzeTrendPerformance(List<String> keywords) async {
     try {
       await Future.delayed(const Duration(seconds: 2));
-      
+
       return TrendAnalysis(
         topKeywords: keywords.take(5).toList(),
-        emergingTrends: ['AI automation', 'Low-code platforms', 'Edge computing'],
+        emergingTrends: [
+          'AI automation',
+          'Low-code platforms',
+          'Edge computing'
+        ],
         keywordPerformance: {
-          for (String keyword in keywords) keyword: (0.5 + (keyword.length % 5) * 0.1)
+          for (String keyword in keywords)
+            keyword: (0.5 + (keyword.length % 5) * 0.1)
         },
         platformDistribution: {
           'Twitter': 35,
@@ -210,23 +213,43 @@ class TrendsScraperServiceImpl implements TrendsScraperService {
   }
 
   @override
-  Future<List<CompetitorData>> getCompetitorAnalysis(List<String> keywords) async {
+  Future<List<CompetitorData>> getCompetitorAnalysis(
+      List<String> keywords) async {
     await Future.delayed(const Duration(seconds: 2));
-    
+
     return [
       CompetitorData(
         competitorName: 'TechCorp',
         platform: 'LinkedIn',
-        topContent: ['AI Development Guide', 'Software Architecture Best Practices'],
-        performanceMetrics: {'engagement': 0.85, 'reach': 0.72, 'conversion': 0.45},
-        strategies: ['Educational content', 'Industry insights', 'Case studies'],
+        topContent: [
+          'AI Development Guide',
+          'Software Architecture Best Practices'
+        ],
+        performanceMetrics: {
+          'engagement': 0.85,
+          'reach': 0.72,
+          'conversion': 0.45
+        },
+        strategies: [
+          'Educational content',
+          'Industry insights',
+          'Case studies'
+        ],
       ),
       CompetitorData(
         competitorName: 'DevSolutions',
         platform: 'Twitter',
         topContent: ['Quick coding tips', 'Tech news updates'],
-        performanceMetrics: {'engagement': 0.78, 'reach': 0.68, 'conversion': 0.38},
-        strategies: ['Real-time updates', 'Community engagement', 'Trending topics'],
+        performanceMetrics: {
+          'engagement': 0.78,
+          'reach': 0.68,
+          'conversion': 0.38
+        },
+        strategies: [
+          'Real-time updates',
+          'Community engagement',
+          'Trending topics'
+        ],
       ),
     ];
   }
@@ -235,7 +258,8 @@ class TrendsScraperServiceImpl implements TrendsScraperService {
     return [
       TrendData(
         platform: 'Twitter',
-        content: 'AI is revolutionizing software development with automated code generation',
+        content:
+            'AI is revolutionizing software development with automated code generation',
         hashtags: ['#AI', '#SoftwareDevelopment', '#Automation'],
         keywords: ['AI', 'automation', 'code generation'],
         engagementCount: 1250,
@@ -266,7 +290,7 @@ class TrendsScraperServiceImpl implements TrendsScraperService {
 class TrendsScraperException implements Exception {
   final String message;
   TrendsScraperException(this.message);
-  
+
   @override
   String toString() => 'TrendsScraperException: $message';
 }

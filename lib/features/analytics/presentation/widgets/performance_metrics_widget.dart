@@ -10,7 +10,8 @@ class PerformanceMetricsWidget extends StatefulWidget {
   });
 
   @override
-  State<PerformanceMetricsWidget> createState() => _PerformanceMetricsWidgetState();
+  State<PerformanceMetricsWidget> createState() =>
+      _PerformanceMetricsWidgetState();
 }
 
 class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
@@ -75,7 +76,7 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
           ),
         ),
         const SizedBox(height: 24),
-        
+
         // Metrics List
         ...widget.metrics.asMap().entries.map((entry) {
           final index = entry.key;
@@ -92,7 +93,7 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
               );
             },
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -139,9 +140,9 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
               _buildTrendIndicator(metric.trend),
             ],
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Value and Progress
           Row(
             children: [
@@ -163,9 +164,9 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
               ),
             ],
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // Progress Bar
           AnimatedBuilder(
             animation: _animations[index],
@@ -180,9 +181,9 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
               );
             },
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // Performance Level
           _buildPerformanceLevel(metric.percentage),
         ],
@@ -193,7 +194,7 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
   Widget _buildTrendIndicator(MetricTrend trend) {
     IconData icon;
     Color color;
-    
+
     switch (trend) {
       case MetricTrend.increasing:
         icon = Icons.trending_up;
@@ -226,7 +227,7 @@ class _PerformanceMetricsWidgetState extends State<PerformanceMetricsWidget>
   Widget _buildPerformanceLevel(double percentage) {
     String level;
     Color color;
-    
+
     if (percentage >= 80) {
       level = 'Excellent';
       color = Colors.green;

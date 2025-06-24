@@ -27,6 +27,8 @@ import 'package:wlog/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:wlog/core/ai/image_analysis_service.dart';
 import 'package:wlog/core/ai/trends_scraper_service.dart';
 import 'package:wlog/core/ai/performance_analysis_service.dart';
+import 'package:wlog/features/analytics/domain/repositories/ai_analysis_repository.dart';
+import 'package:wlog/features/analytics/data/repositories/ai_analysis_repository_impl.dart';
 import 'package:wlog/features/analytics/presentation/bloc/performance_analysis_bloc.dart';
 
 final serviceLocator = GetIt.instance;
@@ -173,7 +175,7 @@ void _initBlog() {
 }
 
 void _initAI() {
-  // AI Services
+  // AI Services with Gemini integration
   serviceLocator.registerLazySingleton<ImageAnalysisService>(
     () => ImageAnalysisServiceImpl(),
   );
@@ -186,12 +188,18 @@ void _initAI() {
     () => PerformanceAnalysisServiceImpl(),
   );
 
+  // AI Analysis Repository for caching
+  serviceLocator.registerLazySingleton<AIAnalysisRepository>(
+    () => AIAnalysisRepositoryImpl(supabaseClient: serviceLocator()),
+  );
+
   // Performance Analysis BLoC
   serviceLocator.registerFactory<PerformanceAnalysisBloc>(
     () => PerformanceAnalysisBloc(
       imageAnalysisService: serviceLocator(),
       trendsScraperService: serviceLocator(),
       performanceAnalysisService: serviceLocator(),
+      // aiAnalysisRepository: serviceLocator(),
     ),
   );
 }

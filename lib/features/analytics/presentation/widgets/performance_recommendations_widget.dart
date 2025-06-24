@@ -10,10 +10,12 @@ class PerformanceRecommendationsWidget extends StatefulWidget {
   });
 
   @override
-  State<PerformanceRecommendationsWidget> createState() => _PerformanceRecommendationsWidgetState();
+  State<PerformanceRecommendationsWidget> createState() =>
+      _PerformanceRecommendationsWidgetState();
 }
 
-class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommendationsWidget>
+class _PerformanceRecommendationsWidgetState
+    extends State<PerformanceRecommendationsWidget>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -65,7 +67,7 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
             ),
           ),
           const SizedBox(height: 24),
-          
+
           // Recommendations List
           if (widget.recommendations.isEmpty)
             _buildEmptyState()
@@ -86,13 +88,14 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
                   );
                 },
               );
-            }).toList(),
+            }),
         ],
       ),
     );
   }
 
-  Widget _buildRecommendationCard(PerformanceRecommendation recommendation, int index) {
+  Widget _buildRecommendationCard(
+      PerformanceRecommendation recommendation, int index) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
@@ -120,9 +123,9 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
               _buildTypeBadge(recommendation.type),
             ],
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // Description
           Text(
             recommendation.description,
@@ -132,9 +135,9 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
               height: 1.4,
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Impact Score
           Row(
             children: [
@@ -148,7 +151,8 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: _getImpactColor(recommendation.impact).withOpacity(0.2),
+                  color:
+                      _getImpactColor(recommendation.impact).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -165,9 +169,9 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
               _buildPriorityIndicator(recommendation.impact),
             ],
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Action Item
           Container(
             padding: const EdgeInsets.all(12),
@@ -179,15 +183,15 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Icon(
                       Icons.assignment_turned_in,
                       color: Colors.blue,
                       size: 16,
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
+                    SizedBox(width: 8),
+                    Text(
                       'Action Item',
                       style: TextStyle(
                         color: Colors.blue,
@@ -208,30 +212,34 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
               ],
             ),
           ),
-          
+
           // Keywords (if any)
           if (recommendation.keywords.isNotEmpty) ...[
             const SizedBox(height: 12),
             Wrap(
               spacing: 8,
               runSpacing: 4,
-              children: recommendation.keywords.map((keyword) => 
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.purple.withOpacity(0.3)),
-                  ),
-                  child: Text(
-                    keyword,
-                    style: const TextStyle(
-                      color: Colors.purple,
-                      fontSize: 10,
+              children: recommendation.keywords
+                  .map(
+                    (keyword) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.purple.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                        border:
+                            Border.all(color: Colors.purple.withOpacity(0.3)),
+                      ),
+                      child: Text(
+                        keyword,
+                        style: const TextStyle(
+                          color: Colors.purple,
+                          fontSize: 10,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ).toList(),
+                  )
+                  .toList(),
             ),
           ],
         ],
@@ -243,7 +251,7 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
     Color color;
     IconData icon;
     String label;
-    
+
     switch (type) {
       case RecommendationType.trending:
         color = Colors.orange;
@@ -295,7 +303,7 @@ class _PerformanceRecommendationsWidgetState extends State<PerformanceRecommenda
   Widget _buildPriorityIndicator(double impact) {
     String priority;
     Color color;
-    
+
     if (impact >= 0.8) {
       priority = 'High';
       color = Colors.red;

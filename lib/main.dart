@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wlog/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:wlog/core/common/cubits/theme/theme_cubit.dart';
 import 'package:wlog/core/theme/theme.dart';
@@ -13,11 +14,12 @@ import 'package:wlog/initDependencies.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
 
-  final authBloc = serviceLocator<AuthBloc>();
-  final appUserCubit = serviceLocator<AppUserCubit>();
-  final blogBloc = serviceLocator<BlogBloc>();
+  // Load environment variables FIRST
+  await dotenv.load();
+
+  // Then initialize dependencies (which need the env vars)
+  await initDependencies();
 
   runApp(MultiBlocProvider(
     providers: [

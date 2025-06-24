@@ -11,12 +11,14 @@ class PerformanceAnalysisPage extends StatefulWidget {
   final String blogId;
   final String blogTitle;
   final String blogImage;
+  final String? blogContent;
 
   const PerformanceAnalysisPage({
     super.key,
     required this.blogId,
     required this.blogTitle,
     required this.blogImage,
+    this.blogContent,
   });
 
   @override
@@ -51,6 +53,8 @@ class _PerformanceAnalysisPageState extends State<PerformanceAnalysisPage>
           StartPerformanceAnalysisEvent(
             blogId: widget.blogId,
             imagePath: widget.blogImage,
+            blogTitle: widget.blogTitle,
+            blogContent: widget.blogContent,
           ),
         );
 
@@ -374,8 +378,7 @@ class _PerformanceAnalysisPageState extends State<PerformanceAnalysisPage>
         ),
         const SizedBox(height: 16),
         ...result.categoryScores.entries
-            .map((entry) => _buildCategoryScoreBar(entry.key, entry.value))
-            .toList(),
+            .map((entry) => _buildCategoryScoreBar(entry.key, entry.value)),
       ],
     );
   }
@@ -425,9 +428,9 @@ class _PerformanceAnalysisPageState extends State<PerformanceAnalysisPage>
           children: [
             const Icon(Icons.error_outline, color: Colors.red, size: 64),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'Analysis Failed',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -446,6 +449,8 @@ class _PerformanceAnalysisPageState extends State<PerformanceAnalysisPage>
                       StartPerformanceAnalysisEvent(
                         blogId: widget.blogId,
                         imagePath: widget.blogImage,
+                        blogTitle: widget.blogTitle,
+                        blogContent: widget.blogContent,
                       ),
                     );
               },

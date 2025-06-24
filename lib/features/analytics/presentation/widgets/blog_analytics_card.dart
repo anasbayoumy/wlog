@@ -23,6 +23,7 @@ class BlogAnalyticsCard extends StatelessWidget {
                 blogId: blog.id,
                 blogTitle: blog.title,
                 blogImage: blog.image,
+                blogContent: blog.content,
               ),
             ),
           );

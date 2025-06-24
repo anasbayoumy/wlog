@@ -65,7 +65,7 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
             ),
           ),
           const SizedBox(height: 24),
-          
+
           // Trend Comparison Cards
           if (widget.comparisons.isEmpty)
             _buildEmptyState()
@@ -86,7 +86,7 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
                   );
                 },
               );
-            }).toList(),
+            }),
         ],
       ),
     );
@@ -120,9 +120,9 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
               _buildPlatformBadge(comparison.platform),
             ],
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Alignment Score
           Row(
             children: [
@@ -143,9 +143,9 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
               ),
             ],
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // Progress Bar
           LinearProgressIndicator(
             value: comparison.alignmentScore / 100,
@@ -155,13 +155,13 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
             ),
             minHeight: 4,
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Trend Volume
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.trending_up,
                 color: Colors.blue,
                 size: 16,
@@ -176,9 +176,9 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
               ),
             ],
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // Recommendation
           Container(
             padding: const EdgeInsets.all(12),
@@ -189,7 +189,7 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
             ),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.lightbulb_outline,
                   color: Colors.blue,
                   size: 16,
@@ -215,7 +215,7 @@ class _TrendComparisonWidgetState extends State<TrendComparisonWidget>
   Widget _buildPlatformBadge(String platform) {
     Color color;
     IconData icon;
-    
+
     switch (platform.toLowerCase()) {
       case 'twitter':
         color = Colors.blue;
