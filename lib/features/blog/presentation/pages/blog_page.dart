@@ -84,7 +84,7 @@ class _BlogPageState extends State<BlogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('wlog'),
+        title: const Text('DashBoard'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -108,7 +108,7 @@ class _BlogPageState extends State<BlogPage> {
             if (state.blogs.isEmpty) {
               return const Center(
                 child: Text(
-                  'No blogs found.\nTap + to create your first blog!',
+                  'No blogs found.\nTap + to create your first post!',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                 ),
@@ -233,7 +233,7 @@ class _BlogPageState extends State<BlogPage> {
             );
           }
           return const Center(
-            child: Text('Welcome to wlog!\nTap + to create your first blog!'),
+            child: Text('Welcome to wlog!\nTap + to create your first post!'),
           );
         },
       ),

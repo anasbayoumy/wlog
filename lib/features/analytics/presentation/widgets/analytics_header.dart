@@ -47,7 +47,7 @@ class AnalyticsHeader extends StatelessWidget {
               ),
               SizedBox(width: 12),
               Text(
-                'Blog Analytics',
+                'Analytics',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -57,14 +57,14 @@ class AnalyticsHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          
+
           // Stats Row
           Row(
             children: [
               Expanded(
                 child: _buildStatCard(
                   icon: Icons.article,
-                  label: 'Total Blogs',
+                  label: 'Total Number',
                   value: totalBlogs.toString(),
                 ),
               ),

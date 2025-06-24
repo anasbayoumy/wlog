@@ -183,11 +183,12 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  Text(
+                                  const Text(
                                     'Join WLog and start blogging',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.grey.shade600,
+                                      color:
+                                          const Color.fromARGB(255, 59, 57, 57),
                                     ),
                                   ),
                                   const SizedBox(height: 40),
@@ -310,11 +311,12 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Already have an account? ',
                                               style: TextStyle(
                                                 fontSize: 16,
-                                                color: Colors.grey.shade600,
+                                                color: const Color.fromARGB(
+                                                    255, 38, 37, 37),
                                               ),
                                             ),
                                             TextButton(
@@ -334,7 +336,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                                       return SlideTransition(
                                                         position: Tween<Offset>(
                                                           begin: const Offset(
-                                                              -1.0, 0.0),
+                                                              0, 0.0),
                                                           end: Offset.zero,
                                                         ).animate(animation),
                                                         child: child,

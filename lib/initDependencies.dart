@@ -24,12 +24,17 @@ import 'package:wlog/features/chat/domain/usecases/get_chat_groups.dart';
 import 'package:wlog/features/chat/domain/usecases/get_messages.dart';
 import 'package:wlog/features/chat/domain/usecases/send_message.dart';
 import 'package:wlog/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:wlog/core/ai/image_analysis_service.dart';
+import 'package:wlog/core/ai/trends_scraper_service.dart';
+import 'package:wlog/core/ai/performance_analysis_service.dart';
+import 'package:wlog/features/analytics/presentation/bloc/performance_analysis_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
   _initBlog();
+  _initAI();
   final supabase = await Supabase.initialize(
     url: SupabaseSecrets.url,
     anonKey: SupabaseSecrets.anonKey,
@@ -163,6 +168,30 @@ void _initBlog() {
       blogRepo: serviceLocator(),
       getAllBlogs: serviceLocator(),
       getAllBlogsForAnalytics: serviceLocator(),
+    ),
+  );
+}
+
+void _initAI() {
+  // AI Services
+  serviceLocator.registerLazySingleton<ImageAnalysisService>(
+    () => ImageAnalysisServiceImpl(),
+  );
+
+  serviceLocator.registerLazySingleton<TrendsScraperService>(
+    () => TrendsScraperServiceImpl(),
+  );
+
+  serviceLocator.registerLazySingleton<PerformanceAnalysisService>(
+    () => PerformanceAnalysisServiceImpl(),
+  );
+
+  // Performance Analysis BLoC
+  serviceLocator.registerFactory<PerformanceAnalysisBloc>(
+    () => PerformanceAnalysisBloc(
+      imageAnalysisService: serviceLocator(),
+      trendsScraperService: serviceLocator(),
+      performanceAnalysisService: serviceLocator(),
     ),
   );
 }

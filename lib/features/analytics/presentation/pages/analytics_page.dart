@@ -111,8 +111,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             const SizedBox(height: 16),
                             Text(
                               selectedCategory == 'All'
-                                  ? 'No blogs found'
-                                  : 'No blogs found in "$selectedCategory" category',
+                                  ? 'No Posts found'
+                                  : 'No Posts found in "$selectedCategory" category',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[600],

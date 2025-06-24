@@ -223,11 +223,11 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                                 child: kIsWeb
                                     ? Image.memory(
                                         webImage!,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       )
                                     : Image.file(
                                         imagePicked!,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       ),
                               ),
                             )
@@ -276,15 +276,10 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                'Title1',
-                                'title2',
-                                'title3',
-                                'title4',
-                                'title5',
-                                'title6',
-                                'title7',
-                                'title8',
-                                'title9',
+                                'Facebook',
+                                'Instagram',
+                                'Tiktok',
+                                'Linkedin',
                               ]
                                   .map((e) => Padding(
                                         padding: const EdgeInsets.all(6.0),
@@ -342,7 +337,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                         children: [
                           const SizedBox(height: 20),
                           TextFieldContent(
-                            hintText: 'Vlog Title',
+                            hintText: 'Post Title',
                             controller: titleController,
                             maxlines: 1,
                           ),
@@ -367,7 +362,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                         children: [
                           const SizedBox(height: 20),
                           TextFieldContent(
-                            hintText: 'Vlog Content',
+                            hintText: 'Post Content',
                             controller: contentController,
                             maxlines: null,
                           ),

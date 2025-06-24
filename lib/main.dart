@@ -8,6 +8,7 @@ import 'package:wlog/features/auth/presentation/pages/loginpage.dart';
 import 'package:wlog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:wlog/features/blog/presentation/pages/blog_page.dart';
 import 'package:wlog/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:wlog/features/analytics/presentation/bloc/performance_analysis_bloc.dart';
 import 'package:wlog/initDependencies.dart';
 
 void main() async {
@@ -34,6 +35,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => serviceLocator<ChatBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<PerformanceAnalysisBloc>(),
       ),
     ],
     child: const MyApp(),
