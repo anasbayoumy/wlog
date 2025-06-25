@@ -1,5 +1,7 @@
 # WLOG - AI-Powered Content Management Platform
 
+🌐 **[Live Demo: https://wlog.sofindex.com](https://wlog.sofindex.com)**
+
 A sophisticated Flutter mobile application for marketing teams to create, manage, analyze, and collaborate on digital content. Originally developed for SOFINDEX client requirements, this is the fully re-implemented version as a personal portfolio project showcasing advanced mobile development capabilities.
 
 ---
